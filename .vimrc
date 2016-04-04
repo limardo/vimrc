@@ -1,153 +1,141 @@
-set t_Co=256
+" Vundle
+set nocompatible
+filetype off
 
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" Plugins
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'zenorocha/dracula-theme', {'rtp': 'vim/'}
+Plugin 'gosukiwi/vim-atom-dark'
+Plugin 'tomasr/molokai'
+Plugin 'tpope/vim-vinegar'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'rking/ag.vim'
+Plugin 'skwp/greplace.vim'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+Plugin 'tpope/vim-surround'
+Plugin 'StanAngeloff/php.vim'
+Plugin 'arnaud-lb/vim-php-namespace'
+Plugin 'ervandew/supertab'
+Plugin 'stephpy/vim-php-cs-fixer'
+
+call vundle#end()
+filetype plugin indent on
+
+" Common
+set t_CO=256
 scriptencoding utf-8
 set encoding=utf-8
 
-set history=256
-set timeoutlen=250 
-set clipboard+=unnamed
-set shiftround
-set tags=.git/tags;$HOME
+syntax on
+let mapleader=','
 
-set modeline
-set modelines=5
+colorscheme atom-dark-256
 
-set autowrite
-set autoread
+" Settings
+set number
+set cursorline
+set backspace=indent,eol,start
+set linespace=12
 
-set hidden
+set noerrorbells visualbell t_vb=
+set autowriteall
+set complete=.,w,b,u
 
 set hlsearch
-set ignorecase
-set smartcase
 set incsearch
 
-let g:is_posix = 1
-let mapleader = ','
-let maplocalleader = ' '
-let g:netrw_banner = 0
-
-set fo+=o 
-set fo-=r
-set fo-=t
-
 set nowrap
-set textwidth=0
 
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
+set tabstop=8
 set expandtab
-set smarttab
-
-set backspace=indent
-set backspace+=eol
-set backspace+=start
-
-set autoindent
-set cindent
-set indentkeys-=0#
-set cinkeys-=0#
-set cinoptions=:s,ps,ts,cs
-set cinwords=if,else,while,do
-set cinwords+=for,switch,case
-
-syntax on
-
-"set mouse=a
-"set mousehide
-
-set number
-set showmatch
-set matchtime=2
-
-set wildmode=longest,list
-
-set completeopt+=preview
-
-set novisualbell
-set noerrorbells
-set vb t_vb=
-
-set laststatus=2
-set shortmess=atI
-set showcmd
-
-set statusline=%<%f\
-set stl+=[%{&ff}]
-set stl+=%y%m%r%=
-set stl+=%-14.(%l,%c%V%)\ %P
-
-set foldenable
-set foldmethod=marker
-set foldlevel=100
-
-set foldopen=block,hor,tag
-set foldopen+=percent,mark
-set foldopen+=quickfix
-
-set virtualedit=block
+set softtabstop=4
+set shiftwidth=4
 
 set splitbelow
 set splitright
 
-"set list
-set listchars=tab:\ ·,eol:•
-set listchars+=trail:·
-set listchars+=extends:»,precedes:«
-map <silent> <F12> :set invlist<CR>
+set showtabline=0
+set scrolloff=15
 
+set guioptions-=l
+set guioptions-=L
+set guioptions-=r
+set guioptions-=R
 
-filetype off                  " required
+" Mappings
+nmap <Leader>vi :tabedit $MYVIMRC<cr>
+nmap <Leader><space> :nohlsearch<cr>
+nmap <Leader>p :CtrlPMRUFiles<cr>
+nmap <Leader>pp :CtrlPMixed<cr>
+nmap <Leader><C-P> :CtrlPBufTag<cr>
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+nmap <Leader>1 :NERDTreeToggle<cr>
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+nmap <Leader>f :tag<space>
 
-" Utility
-Plugin 'majutsushi/tagbar'
+nmap <C-Z> :undo<cr>
+nmap <Leader>w :tabclose<cr>
 
-" Theme
-Plugin 'tomasr/molokai'
+"Sort PHP use statements
+"http://stackoverflow.com/questions/11531073/how-do-you-sort-a-range-of-lines-by-length
+vmap <Leader>su ! awk '{ print length(), $0 \| "sort -n \| cut -d\\  -f2-" }'<cr>
 
-" Statusbar
-Plugin 'bling/vim-airline'
+" Auto-Commands
+augroup autosourcing
+	autocmd!
+	autocmd BufWritePost .gvimrc source %
+	autocmd BufWritePost .vimrc source %
+augroup END
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-" filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" NERDTree
+let NERDTreeHijackNetrw = 0
 
-" Colorscheme
-colorscheme molokai
-let g:rehash256=1
+" CtrlP
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 
-" Utility
-autocmd FileType php,js,css,html,tpl,py,rb,alias nested :TagbarOpen
-map <silent> <F11> :TagbarToggle<CR>
+let g:ctrlp_map = '<C-P>'
+let g:ctrlp_match_window = 'top,order:ttb,min:1,max:30,results:30'
+let g:ctrlp_custom_ignore = 'node_modules\DS_Store\git'
 
-" Statusbar
-let g:Powerline_symbols = "fancy"
+" Greplace.vim
+set grepprg=ag
+let g:grep_cmd_ops = '--line-numbers --noheading'
+let g:ag_working_path_mode = 'r'
 
-let g:airline_section_a = airline#section#create(['%<', 'file', 'readonly'])
-let g:airline_section_b = ''
-let g:airline_section_c = ''
-let g:airline_section_gutter = airline#section#create(['%=%y%m%r[%{&ff}]'])
-let g:airline_section_x = ''
-let g:airline_section_z = airline#section#create(['%(%l,%c%V%) %P'])
-let g:airline_section_warning = ''
+" Php.vim
+"function! PhpSyntaxOverride()
+"  hi! def link phpDocTags  phpDefine
+"  hi! def link phpDocParam phpType
+"endfunction
+
+"augroup phpSyntaxOverride
+"  autocmd!
+"  autocmd FileType php call PhpSyntaxOverride()
+"augroup END
+
+" Vim-php-namespace
+function! IPhpInsertUse()
+    call PhpInsertUse()
+    call feedkeys('a',  'n')
+endfunction
+autocmd FileType php inoremap <Leader>n <Esc>:call IPhpInsertUse()<CR>
+autocmd FileType php noremap <Leader>n :call PhpInsertUse()<CR>
+
+function! IPhpExpandClass()
+    call PhpExpandClass()
+    call feedkeys('a', 'n')
+endfunction
+autocmd FileType php inoremap <Leader>nf <Esc>:call IPhpExpandClass()<CR>
+autocmd FileType php noremap <Leader>nf :call PhpExpandClass()<CR>
+
+" Vim-php-cs-fixer
+let g:php_cs_fixer_level = "psr2" 
+
+nnoremap <Silent><Leader>pcf :call PhpCsFixerFixFile()<CR>
