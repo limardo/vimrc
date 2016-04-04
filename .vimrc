@@ -23,6 +23,11 @@ Plugin 'StanAngeloff/php.vim'
 Plugin 'arnaud-lb/vim-php-namespace'
 Plugin 'ervandew/supertab'
 Plugin 'stephpy/vim-php-cs-fixer'
+Plugin 'tobyS/vmustache'
+Plugin 'tobyS/pdv'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'vim-airline/vim-airline'
 
 call vundle#end()
 filetype plugin indent on
@@ -41,7 +46,7 @@ colorscheme atom-dark-256
 set number
 set cursorline
 set backspace=indent,eol,start
-set linespace=12
+set linespace=1
 
 set noerrorbells visualbell t_vb=
 set autowriteall
@@ -57,11 +62,13 @@ set expandtab
 set softtabstop=4
 set shiftwidth=4
 
+set laststatus=2
+
 set splitbelow
 set splitright
 
 set showtabline=0
-set scrolloff=15
+set scrolloff=4
 
 set guioptions-=l
 set guioptions-=L
@@ -139,3 +146,16 @@ autocmd FileType php noremap <Leader>nf :call PhpExpandClass()<CR>
 let g:php_cs_fixer_level = "psr2" 
 
 nnoremap <Silent><Leader>pcf :call PhpCsFixerFixFile()<CR>
+
+" pdv
+let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
+
+nnoremap <leader>d :call pdv#DocumentWithSnip()<CR>
+
+" Ultisnips
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+" Vim-statusline
+let g:airline_powerline_fonts = 1
