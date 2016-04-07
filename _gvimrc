@@ -1,6 +1,6 @@
 set guifont=DejaVu_Sans_Mono_for_Powerline:h12
-set lines=28
-set columns=200
+set lines=999
+set columns=9999
 set guioptions-=T
 set guioptions-=m
 "au GUIEnter * simalt ~x
