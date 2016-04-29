@@ -13,6 +13,7 @@ Plugin 'zenorocha/dracula-theme', {'rtp': 'vim/'}
 Plugin 'gosukiwi/vim-atom-dark'
 Plugin 'tomasr/molokai'
 Plugin 'nanotech/jellybeans.vim'
+Plugin 'chriskempson/base16-vim'
 
 " Browse
 Plugin 'tpope/vim-vinegar'
