@@ -2,21 +2,23 @@
 set nocompatible
 filetype off
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+set rtp+=~/vimfiles/bundle/Vundle.vim
+call vundle#begin('~/vimfiles/bundle')
 
 " Plugins
 Plugin 'VundleVim/Vundle.vim'
 
-" Theme
-Plugin 'zenorocha/dracula-theme',{'rtp': 'vim/'}
+" Themes
+Plugin 'zenorocha/dracula-theme', {'rtp': 'vim/'}
 Plugin 'gosukiwi/vim-atom-dark'
 Plugin 'tomasr/molokai'
+Plugin 'nanotech/jellybeans.vim'
 
-" Browser
+" Browse
 Plugin 'tpope/vim-vinegar'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 " Search
 Plugin 'rking/ag.vim'
@@ -28,22 +30,26 @@ Plugin 'tomtom/tlib_vim'
 Plugin 'garbas/vim-snipmate'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+Plugin 'huangguozhen/vim-babel-snippets'
 
-" Utility
+" Utils
 Plugin 'tpope/vim-surround'
 Plugin 'ervandew/supertab'
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'terryma/vim-multiple-cursors'
+Plugin 'tpope/vim-fugitive'
 
 " Statusbar
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
-" Git
-Plugin 'tpope/vim-fugitive'
+" Generic
+Plugin 'sheerun/vim-polyglot'
+Plugin 'mattn/emmet-vim'
+Plugin 'AndrewRadev/switch.vim'
+Plugin 'easymotion/vim-easymotion'
 
 " Php
-Plugin 'StanAngeloff/php.vim'
 Plugin 'arnaud-lb/vim-php-namespace'
 Plugin 'stephpy/vim-php-cs-fixer'
 Plugin 'tobyS/vmustache'
@@ -51,19 +57,17 @@ Plugin 'tobyS/pdv'
 
 " Javascript
 Plugin 'pangloss/vim-javascript'
-Plugin 'jelera/vim-javascript-syntax'
-Plugin 'othree/yajs.vim'
-Plugin 'gavocanov/vim-js-indent'
-Plugin 'mxw/vim-jsx'
-Plugin 'elzr/vim-json'
+Plugin 'othree/javascript-libraries-syntax.vim'
+Plugin 'vim-scripts/JavaScript-Indent'
 
-" Html
-Plugin 'othree/html5.vim'
-Plugin 'mattn/emmet-vim'
-
-" Css + Scss
-Plugin 'hail2u/vim-css3-syntax'
+" Scss
 Plugin 'cakebaker/scss-syntax.vim'
+
+" Css
+Plugin 'hail2u/vim-css3-syntax'
+
+" Fonts
+Plugin 'ryanoasis/vim-devicons'
 
 call vundle#end()
 filetype plugin indent on
@@ -79,19 +83,27 @@ let mapleader=','
 colorscheme molokai
 
 " Settings
+set ruler
+set hidden
 set number
 set cursorline
+set lazyredraw
 set backspace=indent,eol,start
 
 set noerrorbells visualbell t_vb=
 set autowriteall
 set complete=.,w,b,u
+set wildmenu
 
 set hlsearch
 set incsearch
 set regexpengine=1
 
+set ignorecase
+set smartcase
+set autoindent
 set nowrap
+set linespace=0
 
 set tabstop=8
 set expandtab
@@ -106,6 +118,9 @@ set splitright
 set showtabline=0
 set scrolloff=4
 
+set noswapfile
+set shellslash
+
 set guioptions-=l
 set guioptions-=L
 set guioptions-=r
@@ -113,6 +128,7 @@ set guioptions-=R
 
 " Mappings
 nmap <Leader>vi :tabedit $MYVIMRC<cr>
+nmap <Leader>gv :tabedit $MYGVIMRC<cr>
 nmap <Leader><space> :nohlsearch<cr>
 nmap <Leader>p :CtrlPMRUFiles<cr>
 nmap <Leader>pp :CtrlPMixed<cr>
@@ -141,28 +157,58 @@ augroup END
 " NERDTree
 let NERDTreeHijackNetrw = 0
 
+autocmd FileType nerdtree setlocal nolist
+
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+    exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+    exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+
+call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
+call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
+call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
+call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
+
+autocmd VimEnter * call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
+
 " CtrlP
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 
 let g:ctrlp_map = '<C-P>'
 let g:ctrlp_match_window = 'top,order:ttb,min:1,max:30,results:30'
 let g:ctrlp_custom_ignore = 'node_modules\DS_Store\git'
+let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'
 
 " Greplace.vim
 set grepprg=ag
-let g:grep_cmd_ops = '--line-numbers --noheading'
-let g:ag_working_path_mode = 'r'
+let g:grep_cmd_opts = '--line-numbers --noheading'
+
+" Vim-autoformat
+let g:formatdef_jsbeautify_javascript = '"js-beautify -X -j -p -f - -".(&expandtab ? "s ".shiftwidth() : "t").(&textwidth ? " -w ".&textwidth : "")'
 
 " Php.vim
 function! PhpSyntaxOverride()
-  hi! def link phpDocTags  phpDefine
-  hi! def link phpDocParam phpType
+    hi! def link phpDocTags  phpDefine
+    hi! def link phpDocParam phpType
 endfunction
 
 augroup phpSyntaxOverride
-  autocmd!
-  autocmd FileType php call PhpSyntaxOverride()
+    autocmd!
+    autocmd FileType php call PhpSyntaxOverride()
 augroup END
 
 " Vim-php-namespace
@@ -181,12 +227,11 @@ autocmd FileType php inoremap <Leader>nf <Esc>:call IPhpExpandClass()<CR>
 autocmd FileType php noremap <Leader>nf :call PhpExpandClass()<CR>
 
 " Vim-php-cs-fixer
-let g:php_cs_fixer_level = "psr2" 
-
-nnoremap <Silent><Leader>pcf :call PhpCsFixerFixFile()<CR>
+let g:php_cs_fixer_level = "psr2"
+let g:php_cs_fixer_fixers_list = "align_equals,align_double_arrow"
 
 " pdv
-let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
+let g:pdv_template_dir = $HOME ."/vimfiles/bundle/pdv/templates_snip"
 
 nnoremap <leader>d :call pdv#DocumentWithSnip()<CR>
 
@@ -204,3 +249,15 @@ au BufRead,BufNewFile *.scss set filetype=scss.css
 
 " Vim-jsx
 let g:jsx_ext_required = 0
+
+" Vim-devicons
+let g:webdevicons_enable = 1
+let g:WebDevIconsNerdTreeAfterGlyphPadding = ""
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:DevIconsEnableFoldersOpenClose = 1
+let g:DevIconsEnableFolderPatternMatching = 1
+let g:DevIconsEnableFolderExtensionPatternMatching = 0
+
+if exists("g:loaded_webdevicons")
+    call webdevicons#refresh()
+endif
