@@ -91,6 +91,9 @@ set cursorline
 set lazyredraw
 set backspace=indent,eol,start
 
+set ttyfast
+set more
+
 set noerrorbells visualbell t_vb=
 set autowriteall
 set complete=.,w,b,u
