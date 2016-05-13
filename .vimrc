@@ -29,7 +29,7 @@ Plugin 'tomtom/tlib_vim'
 Plugin 'garbas/vim-snipmate'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
-Plugin 'alnjxn/babel-vim-snippets'
+Plugin 'limardo/vim-react-snippets'
 
 " Utils
 Plugin 'tpope/vim-surround'
