@@ -191,6 +191,10 @@ set grepprg=ag
 let g:grep_cmd_ops = '--line-numbers --noheading'
 let g:ag_working_path_mode = 'r'
 
+" Vim-autoformat
+let g:formatdef_jsbeautify_javascript = '"js-beautify -X -j -p -f - -".(&expandtab ? "s ".shiftwidth() : "t").(&textwidth ? " -w ".&textwidth : "")'
+let g:formatdef_htmlbeautify = '"html-beautify -f - -I -S -w -A -i -E ".shiftwidth()'
+
 " Php.vim
 function! PhpSyntaxOverride()
     hi! def link phpDocTags  phpDefine
