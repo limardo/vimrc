@@ -31,7 +31,7 @@ Plugin 'tomtom/tlib_vim'
 Plugin 'garbas/vim-snipmate'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
-Plugin 'huangguozhen/vim-babel-snippets'
+Plugin 'limardo/vim-react-snippets'
 
 " Utils
 Plugin 'tpope/vim-surround'
